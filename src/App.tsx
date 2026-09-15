@@ -56,8 +56,6 @@ const projects = [
   { title: 'Nettoyage de terrasse en équipe', category: 'Nettoyage', description: 'Intervention d’équipe sur une terrasse résidentielle en marbre.', image: '/images/nettoyage/equipe-terrasse-lavage.jpeg', tech: 'Lavage marbre, séchage, protection des surfaces.' },
   { title: 'Désinfection sanitaire', category: 'Nettoyage', description: 'Nettoyage et désinfection d’un sanitaire.', image: '/images/nettoyage/desinfection-sanitaire.jpeg', tech: 'Équipement de protection individuel, produit désinfectant.' },
   { title: 'Intervention en cabinet de kinésithérapie', category: 'Nettoyage', description: 'Prestation de nettoyage au sein d’un cabinet PhysioPhelms.', image: '/images/nettoyage/intervention-clinique-physio.jpeg', tech: 'Protocole adapté aux locaux médicaux, désinfection des équipements.' },
-  { title: 'Chantier BTP & construction', category: 'Construction', description: 'Vue de chantier avec équipe et matériel en action.', image: '/images/services/construction/WhatsApp_Image_2026-09-09_at_21.22.30.jpeg', tech: 'Gros œuvre, coordination, sécurité de chantier.' },
-  { title: 'Étude technique sur site', category: 'Construction', description: 'Analyse technique avant démarrage d’un projet.', image: '/images/services/construction/WhatsApp_Image_2026-09-09_at_21.22.27_(1).jpeg', tech: 'Repérage, mesures, planification des étapes d’intervention.' },
   { title: 'Transport de matériel d’intervention', category: 'Équipements', description: 'Équipe transportant flexibles et matériel vers un chantier.', image: '/images/equipe/equipe-transport-materiel.jpeg', tech: 'Nettoyeur haute pression, dérouleurs, équipement individuel.' },
 ];
 
@@ -88,9 +86,6 @@ const videos = [
 
 const equipment = [
   { name: 'Véhicule et matériel d’intervention', type: 'Logistique & nettoyage spécialisé', image: '/images/equipe/equipe-camion-materiel.jpeg' },
-  { name: 'Monobrosse et matériel de lustrage', type: 'Entretien de sols', image: '/images/nettoyage/lustrage-sol-mousse.jpeg' },
-  { name: 'Casque de chantier', type: 'Équipement de sécurité BTP', image: '/images/marque/casque-chantier.jpeg' },
-  { name: 'Nettoyeur haute pression et flexibles', type: 'Nettoyage extérieur', image: '/images/equipe/equipe-transport-materiel.jpeg' },
 ];
 
 const teamPhotos = [
@@ -178,23 +173,33 @@ function BeforeAfterSlider({ pair }: { pair: typeof beforeAfter[0] }) {
   );
 }
 
-function VideoCard({ video }: { video: typeof videos[0] }) {
-  const [playing, setPlaying] = useState(false);
-
+function VideoCard({ video, onPlay }: { video: typeof videos[0]; onPlay: () => void }) {
   return (
     <article className="video-card">
-      {playing ? (
-        <div className="video-player-wrap">
-          <video className="video-player" src={video.src} controls autoPlay playsInline />
-        </div>
-      ) : (
-        <button className="video-poster" onClick={() => setPlaying(true)} aria-label={`Lire la vidéo : ${video.title}`}>
-          <video src={video.src} preload="metadata" muted playsInline aria-hidden="true" />
-          <span className="video-play-icon"><Play size={20} fill="currentColor" /></span>
-        </button>
-      )}
+      <button className="video-poster" onClick={onPlay} aria-label={`Lire la vidéo : ${video.title}`}>
+        <video src={video.src} preload="metadata" muted playsInline aria-hidden="true" />
+        <span className="video-play-icon"><Play size={20} fill="currentColor" /></span>
+      </button>
       <div className="video-caption"><strong>{video.title}</strong><span>{video.category}</span></div>
     </article>
+  );
+}
+
+function VideoModal({ video, onClose }: { video: typeof videos[0]; onClose: () => void }) {
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  return (
+    <div className="video-modal-overlay" onClick={onClose}>
+      <div className="video-modal" onClick={(e) => e.stopPropagation()}>
+        <button className="video-modal-close" onClick={onClose} aria-label="Fermer la vidéo"><X size={20} /></button>
+        <video className="video-modal-player" src={video.src} controls autoPlay playsInline />
+        <div className="video-modal-caption"><strong>{video.title}</strong><span>{video.category}</span></div>
+      </div>
+    </div>
   );
 }
 
@@ -207,6 +212,7 @@ function App() {
   const [testimonialIndex, setTestimonialIndex] = useState(0);
   const [formSent, setFormSent] = useState(false);
   const [expandedTech, setExpandedTech] = useState<string | null>(null);
+  const [activeVideo, setActiveVideo] = useState<typeof videos[0] | null>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -220,7 +226,7 @@ function App() {
   }, []);
 
   const slide = heroSlides[activeSlide];
-  const categories = ['Tous', 'BTP', 'Construction', 'Rénovation', 'Génie civil', 'Nettoyage', 'Équipements'];
+  const categories = ['Tous', 'BTP', 'Rénovation', 'Génie civil', 'Nettoyage', 'Équipements'];
   const visibleProjects = filter === 'Tous' ? projects : projects.filter((project) => project.category === filter);
   const visibleEquipment = equipment[(equipmentIndex + equipment.length) % equipment.length];
 
@@ -385,12 +391,13 @@ function App() {
               <p>Un aperçu filmé de nos chantiers de nettoyage et de nos prestations techniques.</p>
             </div>
             <div className="video-grid">
-              {videos.map((video) => <VideoCard video={video} key={video.src} />)}
+              {videos.map((video) => <VideoCard video={video} key={video.src} onPlay={() => setActiveVideo(video)} />)}
             </div>
           </div>
         </section>
+        {activeVideo && <VideoModal video={activeVideo} onClose={() => setActiveVideo(null)} />}
 
-        <section className="equipment section"><div className="container equipment-layout"><div className="equipment-image"><img key={visibleEquipment.image} src={visibleEquipment.image} alt={visibleEquipment.name} loading="lazy" /><div className="equipment-counter"><span>0{equipmentIndex + 1}</span><span>/ 0{equipment.length}</span></div></div><div className="equipment-copy"><div className="eyebrow light-eyebrow"><span /> Nos équipements</div><h2>Le bon matériel pour chaque défi.</h2><p>Notre parc d’équipements nous permet d’intervenir avec efficacité, précision et sécurité, quelle que soit l’ampleur de votre projet.</p><div className="equipment-detail"><span><Truck size={19} /></span><div><strong>{visibleEquipment.name}</strong><small>{visibleEquipment.type}</small></div></div><div className="equipment-controls"><button onClick={() => setEquipmentIndex((equipmentIndex - 1 + equipment.length) % equipment.length)} aria-label="Équipement précédent"><ChevronLeft /></button><button onClick={() => setEquipmentIndex((equipmentIndex + 1) % equipment.length)} aria-label="Équipement suivant"><ChevronRight /></button></div></div></div></section>
+        <section className="equipment section"><div className="container equipment-layout"><div className="equipment-image"><img key={visibleEquipment.image} src={visibleEquipment.image} alt={visibleEquipment.name} loading="lazy" />{equipment.length > 1 && <div className="equipment-counter"><span>0{equipmentIndex + 1}</span><span>/ 0{equipment.length}</span></div>}</div><div className="equipment-copy"><div className="eyebrow light-eyebrow"><span /> Nos équipements</div><h2>Le bon matériel pour chaque défi.</h2><p>Notre parc d’équipements nous permet d’intervenir avec efficacité, précision et sécurité, quelle que soit l’ampleur de votre projet.</p><div className="equipment-detail"><span><Truck size={19} /></span><div><strong>{visibleEquipment.name}</strong><small>{visibleEquipment.type}</small></div></div>{equipment.length > 1 && <div className="equipment-controls"><button onClick={() => setEquipmentIndex((equipmentIndex - 1 + equipment.length) % equipment.length)} aria-label="Équipement précédent"><ChevronLeft /></button><button onClick={() => setEquipmentIndex((equipmentIndex + 1) % equipment.length)} aria-label="Équipement suivant"><ChevronRight /></button></div>}</div></div></section>
 
         <section className="numbers section"><div className="container numbers-inner"><div><div className="eyebrow"><span /> Les preuves de terrain</div><h2>Une identité fondée sur<br /><em>le réel.</em></h2></div><div className="numbers-grid"><div><strong>Locale</strong><span>Direction identifiée</span></div><div><strong>Terrain</strong><span>Équipe en intervention</span></div><div><strong>Réel</strong><span>Photos de l’entreprise</span></div><div><strong>Direct</strong><span>Contact disponible</span></div></div></div></section>
 
