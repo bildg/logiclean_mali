@@ -50,7 +50,7 @@ const projects = [
   { title: 'Bâtiment et Travaux Publics', category: 'BTP', description: 'Une double compétence BTP et nettoyage présentée sur nos supports.', image: '/images/marque/panneau-services.jpeg', tech: 'Construction, second œuvre, coordination de chantier.' },
   { title: 'Rénovation de sol — carrelage hexagonal', category: 'Rénovation', description: 'Finition d’un sol en carrelage hexagonal noir et blanc.', image: '/images/btp/realisation-carrelage-hexagonal.jpeg', tech: 'Pose, jointoiement, nettoyage de fin de chantier.' },
   { title: 'Finition de sol stratifié — balcon', category: 'Rénovation', description: 'Pose d’un revêtement de sol effet bois sur balcon.', image: '/images/btp/realisation-parquet-balcon.jpeg', tech: 'Revêtement stratifié, plinthes, finitions soignées.' },
-  { title: 'Salle d’eau extérieure', category: 'Génie civil', description: 'Réalisation d’une salle d’eau carrelée en extérieur.', image: '/images/btp/salle-eau-carrelage-1.jpeg', tech: 'Maçonnerie, étanchéité, carrelage, plomberie.' },
+  { title: 'Salle d’eau extérieure', category: 'Génie civil', description: 'Réalisation d’une salle d’eau carrelée en extérieur.', image: '/images/btp/salle-eau-carrelage-2.jpeg', tech: 'Maçonnerie, étanchéité, carrelage, plomberie.' },
   { title: 'Lustrage de sol en profondeur', category: 'Nettoyage', description: 'Décapage et lustrage d’un sol à la monobrosse.', image: '/images/nettoyage/lustrage-sol-mousse.jpeg', tech: 'Monobrosse, détergent moussant, rinçage, séchage.' },
   { title: 'Nettoyage de cuisine de fin de chantier', category: 'Nettoyage', description: 'Nettoyage complet d’une cuisine équipée après travaux.', image: '/images/nettoyage/nettoyage-cuisine-chantier.jpeg', tech: 'Dégraissage, désinfection des surfaces, finitions inox.' },
   { title: 'Nettoyage de terrasse en équipe', category: 'Nettoyage', description: 'Intervention d’équipe sur une terrasse résidentielle en marbre.', image: '/images/nettoyage/equipe-terrasse-lavage.jpeg', tech: 'Lavage marbre, séchage, protection des surfaces.' },
@@ -63,16 +63,16 @@ const projects = [
 
 const beforeAfter = [
   {
-    label: 'Lustrage et remise en état d’un sol',
+    label: 'Rénovation de sol — nettoyage et pose',
     before: '/images/nettoyage/nettoyage-sol-mousse-brosse.jpeg',
-    after: '/images/btp/realisation-carrelage-hexagonal.jpeg',
-    tech: 'Décapage, lustrage à la monobrosse, rinçage et séchage pour un rendu impeccable.',
+    after: '/images/btp/realisation-parquet-balcon.jpeg',
+    tech: 'Décapage et nettoyage en profondeur de l’ancien revêtement, puis pose d’un revêtement stratifié effet bois et finitions.',
   },
   {
-    label: 'Finition d’un chantier BTP',
+    label: 'Aménagement d’une salle d’eau extérieure',
     before: '/images/btp/salle-eau-carrelage-1.jpeg',
-    after: '/images/btp/realisation-parquet-balcon.jpeg',
-    tech: 'Gros œuvre, revêtements, finitions livrées avec précision.',
+    after: '/images/btp/salle-eau-carrelage-2.jpeg',
+    tech: 'Maçonnerie, étanchéité, pose de carrelage mural et sol, plomberie, finitions.',
   },
 ];
 
@@ -324,9 +324,9 @@ function App() {
         <section className="before-after-section section">
           <div className="container">
             <div className="section-heading centered">
-              <div className="eyebrow"><span /> Le rendu de nos interventions</div>
+              <div className="eyebrow"><span /> Avant / Après</div>
               <h2>Des résultats visibles, immédiatement.</h2>
-              <p>Faites glisser le curseur pour comparer l’état type avant intervention et le résultat livré par nos équipes.</p>
+              <p>Faites glisser le curseur pour comparer l’état avant intervention et le résultat livré par nos équipes, sur le même chantier.</p>
             </div>
             <div className="ba-grid">
               {beforeAfter.map((pair) => (
