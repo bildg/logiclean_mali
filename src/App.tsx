@@ -2,23 +2,30 @@ import { useEffect, useRef, useState } from 'react';
 import {
   ArrowRight, ArrowUpRight, BadgeCheck, Building2,
   ChevronDown, ChevronLeft, ChevronRight, CircleCheck, Clock3, Leaf, MapPin, Menu, MessageCircle,
-  Paintbrush, Phone, Plus, ShieldCheck, Sparkles, Star, Truck, Users, Wrench, X, Zap,
+  Paintbrush, Phone, Play, Plus, ShieldCheck, Sparkles, Star, Truck, Users, Wrench, X, Zap,
 } from 'lucide-react';
 
 const heroSlides = [
   {
-    eyebrow: 'Une direction présente sur le terrain',
-    title: 'Des solutions concrètes pour vos projets.',
-    text: 'Global Logiclean Services SARL accompagne ses clients dans le BTP, le nettoyage et les prestations techniques avec une équipe visible et engagée.',
-    image: '/images/realizations/WhatsApp_Image_2026-09-09_at_21.22.32.jpeg',
-    alt: 'Direction de Global Logiclean Services SARL',
+    eyebrow: 'Une équipe et un matériel prêts à intervenir',
+    title: 'Votre propreté, notre priorité.',
+    text: 'Global Logiclean Services SARL déploie une équipe formée et un parc de matériel professionnel pour vos chantiers de nettoyage, de BTP et vos prestations techniques, à Bamako et sa région.',
+    image: '/images/equipe/equipe-camion-materiel.jpeg',
+    alt: 'Équipe Global Logiclean Services SARL devant le véhicule de service, avec le matériel professionnel',
   },
   {
     eyebrow: 'Nettoyage professionnel en hauteur',
     title: 'La qualité jusque dans les détails.',
     text: 'Des équipes formées et équipées pour entretenir les bâtiments, les vitrages et les espaces qui comptent pour vous.',
-    image: '/images/team/WhatsApp_Image_2026-09-09_at_21.22.31.jpeg',
-    alt: 'Agent Global Logiclean nettoyant une façade vitrée en hauteur',
+    image: '/images/nettoyage/nettoyage-douche-hauteur.jpeg',
+    alt: 'Agente Global Logiclean nettoyant un mur carrelé en hauteur sur escabeau',
+  },
+  {
+    eyebrow: 'BTP & finitions soignées',
+    title: 'Des chantiers menés jusqu’à la finition parfaite.',
+    text: 'Carrelage, revêtements et finitions livrés avec précision : la qualité de nos réalisations BTP parle d’elle-même.',
+    image: '/images/btp/realisation-carrelage-hexagonal.jpeg',
+    alt: 'Sol carrelé hexagonal noir et blanc, finition BTP réalisée par Global Logiclean Services',
   },
   {
     eyebrow: 'Interventions techniques',
@@ -30,56 +37,75 @@ const heroSlides = [
 ];
 
 const services = [
-  { icon: Building2, title: 'BTP & construction', text: 'Construction, rénovation et génie civil avec une identité claire et structurée.', image: '/images/realizations/WhatsApp_Image_2026-09-09_at_21.22.29.jpeg', tech: 'Maçonnerie, gros œuvre, finitions, respect des normes HSE.' },
-  { icon: Sparkles, title: 'Nettoyage en hauteur', text: 'Lavage de façades vitrées avec des équipes équipées et visibles.', image: '/images/team/WhatsApp_Image_2026-09-09_at_21.22.31.jpeg', tech: 'Accès sur échelle, harnais de sécurité, produits adaptés aux vitrages.' },
-  { icon: Paintbrush, title: 'Nettoyage & désinfection', text: 'Des interventions soignées pour des espaces propres et sains.', image: '/images/services/construction/WhatsApp_Image_2026-09-09_at_21.22.30.jpeg', tech: 'Produits professionnels, désinfection des surfaces, entretien régulier.' },
-  { icon: Truck, title: 'Logistique & transport', text: 'Une équipe et un véhicule identifiés pour vos interventions.', image: '/images/services/technical/WhatsApp_Image_2026-09-09_at_21.22.28_(2).jpeg', tech: 'Véhicule de service marqué, matériel d’intervention embarqué.' },
-  { icon: Wrench, title: 'Services techniques', text: 'Maintenance et interventions techniques sur site.', image: '/images/hero/WhatsApp_Image_2026-09-09_at_21.22.27.jpeg', tech: 'Électricité, plomberie, outillage professionnel, diagnostic sur place.' },
-  { icon: Zap, title: 'Accompagnement', text: 'Une direction et une équipe disponibles pour vos besoins.', image: '/images/realizations/WhatsApp_Image_2026-09-09_at_21.22.32.jpeg', tech: 'Étude personnalisée, devis détaillé, suivi de chantier.' },
+  { icon: Building2, title: 'BTP & construction', text: 'Construction, rénovation et génie civil avec une identité claire et structurée.', image: '/images/btp/realisation-carrelage-hexagonal.jpeg', tech: 'Maçonnerie, gros œuvre, revêtements, finitions, respect des normes HSE.' },
+  { icon: Sparkles, title: 'Nettoyage en hauteur', text: 'Lavage de façades et de surfaces vitrées avec des équipes équipées et visibles.', image: '/images/nettoyage/nettoyage-douche-hauteur.jpeg', tech: 'Accès sur escabeau, équipement de protection, produits adaptés aux surfaces fragiles.' },
+  { icon: Paintbrush, title: 'Nettoyage & désinfection', text: 'Des interventions soignées pour des espaces propres et sains, chez les particuliers comme en entreprise.', image: '/images/nettoyage/desinfection-sanitaire.jpeg', tech: 'Produits professionnels, désinfection des surfaces, entretien régulier.' },
+  { icon: Truck, title: 'Logistique & transport', text: 'Une équipe et un véhicule identifiés pour acheminer le matériel sur chaque intervention.', image: '/images/equipe/equipe-transport-materiel.jpeg', tech: 'Véhicule de service marqué, flexibles, dérouleurs et matériel d’intervention embarqué.' },
+  { icon: Wrench, title: 'Services techniques', text: 'Maintenance et interventions techniques sur site, y compris en milieu médical.', image: '/images/nettoyage/intervention-clinique-physio.jpeg', tech: 'Diagnostic, outillage professionnel, intervention ciblée et sécurisée.' },
+  { icon: Zap, title: 'Accompagnement', text: 'Une direction et une équipe disponibles pour étudier votre besoin.', image: '/images/marque/directeur-general.jpeg', tech: 'Étude personnalisée, devis détaillé, suivi de chantier.' },
 ];
 
 const projects = [
-  { title: 'Nettoyage de façades vitrées', category: 'Nettoyage', description: 'Intervention d’équipe sur un bâtiment moderne.', image: '/images/team/WhatsApp_Image_2026-09-09_at_21.22.31.jpeg', tech: 'Travail en hauteur, sécurité harnais, lavage vitrage.' },
-  { title: 'Nettoyage résidentiel en hauteur', category: 'Nettoyage', description: 'Entretien de fenêtres et de façades avec accès sur échelle.', image: '/images/realizations/WhatsApp_Image_2026-09-09_at_21.22.28_(1).jpeg', tech: 'Échelle à crinoline, produits non abrasifs, finition sans traces.' },
-  { title: 'Équipe et véhicule de service', category: 'Équipements', description: 'Une équipe équipée et identifiable sur le terrain.', image: '/images/services/technical/WhatsApp_Image_2026-09-09_at_21.22.28_(2).jpeg', tech: 'Véhicule marbré, tenues d’équipe, matériel d’intervention.' },
-  { title: 'Maintenance technique sur site', category: 'BTP', description: 'Intervention technique réalisée par un agent Global Logiclean.', image: '/images/hero/WhatsApp_Image_2026-09-09_at_21.22.27.jpeg', tech: 'Diagnostic, outillage, intervention ciblée et sécurisée.' },
-  { title: 'BTP & nettoyage spécialisé', category: 'BTP', description: 'Une offre de services présentée dans les supports de l’entreprise.', image: '/images/realizations/WhatsApp_Image_2026-09-09_at_21.22.29.jpeg', tech: 'Double compétence BTP et nettoyage, coordination de chantier.' },
-  { title: 'Agent en intervention', category: 'Nettoyage', description: 'Un agent équipé pour une prestation de nettoyage spécialisé.', image: '/images/services/cleaning/WhatsApp_Image_2026-09-09_at_21.22.30_(1).jpeg', tech: 'Équipement individuel, produit professionnel, méthode structurée.' },
-  { title: 'Chantier de construction', category: 'Construction', description: 'Vue de chantier avec équipe et matériel en action.', image: '/images/services/construction/WhatsApp_Image_2026-09-09_at_21.22.30.jpeg', tech: 'Gros œuvre, coordination, sécurité de chantier.' },
+  { title: 'Équipe et véhicule de service', category: 'Équipements', description: 'Une équipe équipée et identifiable, prête à intervenir sur le terrain.', image: '/images/equipe/equipe-camion-materiel.jpeg', tech: 'Véhicule de service marqué, monobrosse, nettoyeur haute pression, aspirateurs à eau.' },
+  { title: 'Bâtiment et Travaux Publics', category: 'BTP', description: 'Une double compétence BTP et nettoyage présentée sur nos supports.', image: '/images/marque/panneau-services.jpeg', tech: 'Construction, second œuvre, coordination de chantier.' },
+  { title: 'Rénovation de sol — carrelage hexagonal', category: 'Rénovation', description: 'Finition d’un sol en carrelage hexagonal noir et blanc.', image: '/images/btp/realisation-carrelage-hexagonal.jpeg', tech: 'Pose, jointoiement, nettoyage de fin de chantier.' },
+  { title: 'Finition de sol stratifié — balcon', category: 'Rénovation', description: 'Pose d’un revêtement de sol effet bois sur balcon.', image: '/images/btp/realisation-parquet-balcon.jpeg', tech: 'Revêtement stratifié, plinthes, finitions soignées.' },
+  { title: 'Salle d’eau extérieure', category: 'Génie civil', description: 'Réalisation d’une salle d’eau carrelée en extérieur.', image: '/images/btp/salle-eau-carrelage-1.jpeg', tech: 'Maçonnerie, étanchéité, carrelage, plomberie.' },
+  { title: 'Lustrage de sol en profondeur', category: 'Nettoyage', description: 'Décapage et lustrage d’un sol à la monobrosse.', image: '/images/nettoyage/lustrage-sol-mousse.jpeg', tech: 'Monobrosse, détergent moussant, rinçage, séchage.' },
+  { title: 'Nettoyage de cuisine de fin de chantier', category: 'Nettoyage', description: 'Nettoyage complet d’une cuisine équipée après travaux.', image: '/images/nettoyage/nettoyage-cuisine-chantier.jpeg', tech: 'Dégraissage, désinfection des surfaces, finitions inox.' },
+  { title: 'Nettoyage de terrasse en équipe', category: 'Nettoyage', description: 'Intervention d’équipe sur une terrasse résidentielle en marbre.', image: '/images/nettoyage/equipe-terrasse-lavage.jpeg', tech: 'Lavage marbre, séchage, protection des surfaces.' },
+  { title: 'Désinfection sanitaire', category: 'Nettoyage', description: 'Nettoyage et désinfection d’un sanitaire.', image: '/images/nettoyage/desinfection-sanitaire.jpeg', tech: 'Équipement de protection individuel, produit désinfectant.' },
+  { title: 'Intervention en cabinet de kinésithérapie', category: 'Nettoyage', description: 'Prestation de nettoyage au sein d’un cabinet PhysioPhelms.', image: '/images/nettoyage/intervention-clinique-physio.jpeg', tech: 'Protocole adapté aux locaux médicaux, désinfection des équipements.' },
+  { title: 'Chantier BTP & construction', category: 'Construction', description: 'Vue de chantier avec équipe et matériel en action.', image: '/images/services/construction/WhatsApp_Image_2026-09-09_at_21.22.30.jpeg', tech: 'Gros œuvre, coordination, sécurité de chantier.' },
   { title: 'Étude technique sur site', category: 'Construction', description: 'Analyse technique avant démarrage d’un projet.', image: '/images/services/construction/WhatsApp_Image_2026-09-09_at_21.22.27_(1).jpeg', tech: 'Repérage, mesures, planification des étapes d’intervention.' },
+  { title: 'Transport de matériel d’intervention', category: 'Équipements', description: 'Équipe transportant flexibles et matériel vers un chantier.', image: '/images/equipe/equipe-transport-materiel.jpeg', tech: 'Nettoyeur haute pression, dérouleurs, équipement individuel.' },
 ];
 
 const beforeAfter = [
   {
-    label: 'Nettoyage de façade',
-    before: '/images/realizations/WhatsApp_Image_2026-09-09_at_21.22.29.jpeg',
-    after: '/images/team/WhatsApp_Image_2026-09-09_at_21.22.31.jpeg',
-    tech: 'Lavage haute pression, produits adaptés au support, finition sans traces.',
+    label: 'Lustrage et remise en état d’un sol',
+    before: '/images/nettoyage/nettoyage-sol-mousse-brosse.jpeg',
+    after: '/images/btp/realisation-carrelage-hexagonal.jpeg',
+    tech: 'Décapage, lustrage à la monobrosse, rinçage et séchage pour un rendu impeccable.',
   },
   {
-    label: 'Intervention technique',
-    before: '/images/services/construction/WhatsApp_Image_2026-09-09_at_21.22.27_(1).jpeg',
-    after: '/images/hero/WhatsApp_Image_2026-09-09_at_21.22.27.jpeg',
-    tech: 'Diagnostic, outillage professionnel, remise en état après intervention.',
+    label: 'Finition d’un chantier BTP',
+    before: '/images/btp/salle-eau-carrelage-1.jpeg',
+    after: '/images/btp/realisation-parquet-balcon.jpeg',
+    tech: 'Gros œuvre, revêtements, finitions livrées avec précision.',
   },
+];
+
+const videos = [
+  { title: 'Équipe et matériel prêts à intervenir', category: 'Équipe & matériel', src: '/videos/video-equipe-materiel.mp4' },
+  { title: 'Intervention de nettoyage professionnel', category: 'Nettoyage', src: '/videos/video-intervention-01.mp4' },
+  { title: 'Nettoyage sur site', category: 'Nettoyage', src: '/videos/video-intervention-02.mp4' },
+  { title: 'Entretien et remise en état', category: 'Nettoyage', src: '/videos/video-intervention-03.mp4' },
+  { title: 'Équipe en action', category: 'Nettoyage', src: '/videos/video-intervention-04.mp4' },
+  { title: 'Intervention technique', category: 'Services techniques', src: '/videos/video-intervention-05.mp4' },
+  { title: 'Prestation Global Logiclean', category: 'Nettoyage', src: '/videos/video-intervention-06.mp4' },
 ];
 
 const equipment = [
-  { name: 'Véhicule et matériel d’intervention', type: 'Logistique & nettoyage spécialisé', image: '/images/services/technical/WhatsApp_Image_2026-09-09_at_21.22.28_(2).jpeg' },
-  { name: 'Équipement de nettoyage en hauteur', type: 'Façades et vitrages', image: '/images/equipment/WhatsApp_Image_2026-09-09_at_21.22.29_(1).jpeg' },
-  { name: 'Outillage technique', type: 'Maintenance sur site', image: '/images/hero/WhatsApp_Image_2026-09-09_at_21.22.27.jpeg' },
+  { name: 'Véhicule et matériel d’intervention', type: 'Logistique & nettoyage spécialisé', image: '/images/equipe/equipe-camion-materiel.jpeg' },
+  { name: 'Monobrosse et matériel de lustrage', type: 'Entretien de sols', image: '/images/nettoyage/lustrage-sol-mousse.jpeg' },
+  { name: 'Casque de chantier', type: 'Équipement de sécurité BTP', image: '/images/marque/casque-chantier.jpeg' },
+  { name: 'Nettoyeur haute pression et flexibles', type: 'Nettoyage extérieur', image: '/images/equipe/equipe-transport-materiel.jpeg' },
 ];
 
 const teamPhotos = [
-  { image: '/images/team/WhatsApp_Image_2026-09-09_at_21.22.31.jpeg', role: 'Nettoyage spécialisé' },
-  { image: '/images/team/WhatsApp_Image_2026-09-09_at_21.22.28.jpeg', role: 'Équipe sur le terrain' },
-  { image: '/images/realizations/WhatsApp_Image_2026-09-09_at_21.22.32.jpeg', role: 'Direction' },
+  { image: '/images/equipe/equipe-camion-materiel.jpeg', role: 'Équipe et véhicule de service' },
+  { image: '/images/equipe/equipe-terrasse-materiel.jpeg', role: 'Équipe sur le terrain' },
+  { image: '/images/equipe/equipe-materiel-villa.jpeg', role: 'Équipe équipée en intervention' },
+  { image: '/images/equipe/equipe-clinique-physio.jpeg', role: 'Équipe chez un client' },
+  { image: '/images/equipe/equipe-briefing-tablette.jpeg', role: 'Coordination de chantier' },
+  { image: '/images/marque/directeur-general.jpeg', role: 'Direction générale' },
 ];
 
 const testimonials = [
-  { quote: 'Une équipe visible, équipée et engagée pour des interventions de qualité.', name: 'Équipe Global Logiclean', role: 'Nettoyage spécialisé', image: '/images/team/WhatsApp_Image_2026-09-09_at_21.22.31.jpeg' },
-  { quote: 'Une organisation de terrain pensée pour accompagner chaque besoin avec sérieux.', name: 'Équipe Global Logiclean', role: 'Logistique & transport', image: '/images/services/technical/WhatsApp_Image_2026-09-09_at_21.22.28_(2).jpeg' },
-  { quote: 'Des compétences techniques mobilisées avec méthode, sécurité et sens du service.', name: 'Équipe Global Logiclean', role: 'Prestations techniques', image: '/images/hero/WhatsApp_Image_2026-09-09_at_21.22.27.jpeg' },
+  { quote: 'Une équipe visible, équipée et engagée pour des interventions de qualité.', name: 'Équipe Global Logiclean', role: 'Nettoyage spécialisé', image: '/images/equipe/equipe-terrasse-materiel.jpeg' },
+  { quote: 'Une organisation de terrain pensée pour accompagner chaque besoin avec sérieux.', name: 'Équipe Global Logiclean', role: 'Logistique & transport', image: '/images/equipe/equipe-transport-materiel.jpeg' },
+  { quote: 'Des compétences mobilisées avec méthode, sécurité et sens du service, du premier contact à la livraison.', name: 'Oumar Diakité', role: 'Directeur Général', image: '/images/marque/directeur-general.jpeg' },
 ];
 
 const commitments = [
@@ -152,6 +178,26 @@ function BeforeAfterSlider({ pair }: { pair: typeof beforeAfter[0] }) {
   );
 }
 
+function VideoCard({ video }: { video: typeof videos[0] }) {
+  const [playing, setPlaying] = useState(false);
+
+  return (
+    <article className="video-card">
+      {playing ? (
+        <div className="video-player-wrap">
+          <video className="video-player" src={video.src} controls autoPlay playsInline />
+        </div>
+      ) : (
+        <button className="video-poster" onClick={() => setPlaying(true)} aria-label={`Lire la vidéo : ${video.title}`}>
+          <video src={video.src} preload="metadata" muted playsInline aria-hidden="true" />
+          <span className="video-play-icon"><Play size={20} fill="currentColor" /></span>
+        </button>
+      )}
+      <div className="video-caption"><strong>{video.title}</strong><span>{video.category}</span></div>
+    </article>
+  );
+}
+
 function App() {
   const [activeSlide, setActiveSlide] = useState(0);
   const [menuOpen, setMenuOpen] = useState(false);
@@ -203,6 +249,7 @@ function App() {
             <button onClick={() => goTo('services')}>Nos services</button>
             <button onClick={() => goTo('apropos')}>À propos</button>
             <button onClick={() => goTo('realisations')}>Réalisations</button>
+            <button onClick={() => goTo('videos')}>Vidéos</button>
             <button onClick={() => goTo('engagements')}>Engagements</button>
             <button onClick={() => goTo('contact')}>Contact</button>
             <button className="nav-cta" onClick={() => goTo('contact')}>Demander un devis <ArrowUpRight size={15} /></button>
@@ -233,11 +280,11 @@ function App() {
             </div>
             <div className="hero-visual" aria-label="Aperçu de nos métiers">
               <div className="hero-image-main"><img key={slide.image} src={slide.image} alt={slide.alt} /></div>
-              <div className="hero-image-circle hero-image-circle-top"><img src="/images/team/WhatsApp_Image_2026-09-09_at_21.22.31.jpeg" alt="Agent Global Logiclean nettoyant une façade vitrée" /></div>
-              <div className="hero-image-circle hero-image-circle-bottom"><img src="/images/services/construction/WhatsApp_Image_2026-09-09_at_21.22.30.jpeg" alt="Agent Global Logiclean équipé pour une intervention" /></div>
-              <div className="hero-image-small"><img src="/images/services/technical/WhatsApp_Image_2026-09-09_at_21.22.28_(2).jpeg" alt="Équipe Global Logiclean et véhicule de service" /></div>
+              <div className="hero-image-circle hero-image-circle-top"><img src="/images/equipe/equipe-terrasse-materiel.jpeg" alt="Équipe Global Logiclean réunie sur le terrain" /></div>
+              <div className="hero-image-circle hero-image-circle-bottom"><img src="/images/btp/realisation-carrelage-hexagonal.jpeg" alt="Finition de carrelage réalisée par Global Logiclean" /></div>
+              <div className="hero-image-small"><img src="/images/nettoyage/desinfection-sanitaire.jpeg" alt="Agente Global Logiclean lors d’une désinfection sanitaire" /></div>
               <div className="hero-badge"><span className="badge-number">GL<span>S</span></span><span>une équipe<br />visible sur le terrain</span></div>
-              <div className="hero-slides"><span>{String(activeSlide + 1).padStart(2, '0')}</span><div>{heroSlides.map((_, index) => <button key={index} onClick={() => setActiveSlide(index)} className={activeSlide === index ? 'active' : ''} aria-label={`Afficher la diapositive ${index + 1}`} />)}</div><span>03</span></div>
+              <div className="hero-slides"><span>{String(activeSlide + 1).padStart(2, '0')}</span><div>{heroSlides.map((_, index) => <button key={index} onClick={() => setActiveSlide(index)} className={activeSlide === index ? 'active' : ''} aria-label={`Afficher la diapositive ${index + 1}`} />)}</div><span>{String(heroSlides.length).padStart(2, '0')}</span></div>
             </div>
           </div>
           <div className="hero-bottom-wave" />
@@ -270,16 +317,16 @@ function App() {
         </section>
 
         <section className="about section" id="apropos">
-          <div className="about-photo"><img src="/images/realizations/WhatsApp_Image_2026-09-09_at_21.22.32.jpeg" alt="Direction de Global Logiclean Services dans ses bureaux" loading="lazy" /><span className="about-photo-ring" /><span className="about-photo-label">Une entreprise identifiée</span></div>
+          <div className="about-photo"><img src="/images/marque/directeur-general.jpeg" alt="Oumar Diakité, Directeur Général de Global Logiclean Services" loading="lazy" /><span className="about-photo-ring" /><span className="about-photo-label">Une entreprise identifiée</span></div>
           <div className="about-content"><div className="eyebrow"><span /> À propos de nous</div><h2>Une entreprise réelle, présente sur le terrain.</h2><p>Global Logiclean Services SARL rassemble une direction, des agents équipés et un véhicule de service pour répondre à des besoins de BTP, de nettoyage spécialisé et de prestations techniques.</p><p>Notre identité se construit dans nos équipes, nos équipements et la qualité de chaque intervention.</p><button className="button button-blue" onClick={() => goTo('contact')}>Parler de votre besoin <ArrowRight size={17} /></button><div className="about-stats"><div><strong>2</strong><span>Activités principales</span></div><div><strong>1</strong><span>Équipe identifiée</span></div><div><strong>100%</strong><span>Photos réelles</span></div></div></div>
         </section>
 
         <section className="before-after-section section">
           <div className="container">
             <div className="section-heading centered">
-              <div className="eyebrow"><span /> Avant / Après</div>
+              <div className="eyebrow"><span /> Le rendu de nos interventions</div>
               <h2>Des résultats visibles, immédiatement.</h2>
-              <p>Faites glisser le curseur pour comparer l’état avant et après nos interventions.</p>
+              <p>Faites glisser le curseur pour comparer l’état type avant intervention et le résultat livré par nos équipes.</p>
             </div>
             <div className="ba-grid">
               {beforeAfter.map((pair) => (
@@ -330,6 +377,19 @@ function App() {
           </div>
         </section>
 
+        <section className="videos-section section" id="videos">
+          <div className="container">
+            <div className="section-heading centered">
+              <div className="eyebrow"><span /> En vidéo</div>
+              <h2>Nos équipes en intervention.</h2>
+              <p>Un aperçu filmé de nos chantiers de nettoyage et de nos prestations techniques.</p>
+            </div>
+            <div className="video-grid">
+              {videos.map((video) => <VideoCard video={video} key={video.src} />)}
+            </div>
+          </div>
+        </section>
+
         <section className="equipment section"><div className="container equipment-layout"><div className="equipment-image"><img key={visibleEquipment.image} src={visibleEquipment.image} alt={visibleEquipment.name} loading="lazy" /><div className="equipment-counter"><span>0{equipmentIndex + 1}</span><span>/ 0{equipment.length}</span></div></div><div className="equipment-copy"><div className="eyebrow light-eyebrow"><span /> Nos équipements</div><h2>Le bon matériel pour chaque défi.</h2><p>Notre parc d’équipements nous permet d’intervenir avec efficacité, précision et sécurité, quelle que soit l’ampleur de votre projet.</p><div className="equipment-detail"><span><Truck size={19} /></span><div><strong>{visibleEquipment.name}</strong><small>{visibleEquipment.type}</small></div></div><div className="equipment-controls"><button onClick={() => setEquipmentIndex((equipmentIndex - 1 + equipment.length) % equipment.length)} aria-label="Équipement précédent"><ChevronLeft /></button><button onClick={() => setEquipmentIndex((equipmentIndex + 1) % equipment.length)} aria-label="Équipement suivant"><ChevronRight /></button></div></div></div></section>
 
         <section className="numbers section"><div className="container numbers-inner"><div><div className="eyebrow"><span /> Les preuves de terrain</div><h2>Une identité fondée sur<br /><em>le réel.</em></h2></div><div className="numbers-grid"><div><strong>Locale</strong><span>Direction identifiée</span></div><div><strong>Terrain</strong><span>Équipe en intervention</span></div><div><strong>Réel</strong><span>Photos de l’entreprise</span></div><div><strong>Direct</strong><span>Contact disponible</span></div></div></div></section>
@@ -354,10 +414,10 @@ function App() {
 
         <section className="testimonials section"><div className="container"><div className="section-heading centered"><div className="eyebrow"><span /> Une équipe visible</div><h2>Le professionnalisme sur le terrain.</h2><p>Nos photos racontent mieux que les promesses la réalité de nos interventions.</p></div><div className="testimonial-wrap"><button className="carousel-arrow" onClick={() => setTestimonialIndex((testimonialIndex - 1 + testimonials.length) % testimonials.length)} aria-label="Photo précédente"><ChevronLeft /></button><article className="testimonial"><div className="testimonial-avatar"><img src={testimonials[testimonialIndex].image} alt={testimonials[testimonialIndex].role} /></div><div className="stars">{[1, 2, 3, 4, 5].map((star) => <Star key={star} size={15} fill="currentColor" />)}</div><blockquote>“{testimonials[testimonialIndex].quote}”</blockquote><strong>{testimonials[testimonialIndex].name}</strong><span>{testimonials[testimonialIndex].role}</span></article><button className="carousel-arrow" onClick={() => setTestimonialIndex((testimonialIndex + 1) % testimonials.length)} aria-label="Photo suivante"><ChevronRight /></button></div><div className="carousel-dots">{testimonials.map((_, index) => <button key={index} onClick={() => setTestimonialIndex(index)} className={testimonialIndex === index ? 'active' : ''} aria-label={`Photo ${index + 1}`} />)}</div></div></section>
 
-        <section className="contact section" id="contact"><div className="container contact-layout"><div className="contact-copy"><div className="eyebrow light-eyebrow"><span /> Parlons de votre projet</div><h2>Vous avez un projet ?<br /><em>Construisons-le ensemble.</em></h2><p>Notre équipe est prête à vous accompagner dans vos projets de construction, rénovation, nettoyage et prestations techniques.</p><div className="contact-details"><a href="tel:+22376557215"><Phone size={17} /> +223 76 55 72 15</a><a href="tel:+22362128590"><Phone size={17} /> +223 62 12 85 90</a><span><MapPin size={17} /> Imm. Samassa, route des 30 mètres</span></div></div><div className="contact-form-wrap">{formSent ? <div className="success-message"><CircleCheck size={42} /><h3>Merci pour votre demande.</h3><p>Notre équipe reviendra vers vous très rapidement.</p><button className="button button-blue" onClick={() => setFormSent(false)}>Envoyer une autre demande</button></div> : <form onSubmit={handleSubmit}><div className="form-heading"><h3>Parlez-nous de votre besoin</h3><p>Réponse sous 24h ouvrées.</p></div><div className="form-row"><label>Nom complet<input required placeholder="Votre nom" /></label><label>Téléphone<input required type="tel" placeholder="+223 ..." /></label></div><label>Email professionnel<input required type="email" placeholder="vous@entreprise.com" /></label><label>Votre projet<select defaultValue=""><option value="" disabled>Choisissez un service</option><option>Construction / BTP</option><option>Rénovation</option><option>Nettoyage professionnel</option><option>Services techniques</option></select></label><label>Message<textarea required rows={3} placeholder="Décrivez-nous votre projet..." /></label><button className="button button-primary form-button" type="submit">Envoyer ma demande <ArrowRight size={17} /></button></form>}</div></div></section>
+        <section className="contact section" id="contact"><div className="container contact-layout"><div className="contact-copy"><div className="eyebrow light-eyebrow"><span /> Parlons de votre projet</div><h2>Vous avez un projet ?<br /><em>Construisons-le ensemble.</em></h2><p>Notre équipe est prête à vous accompagner dans vos projets de construction, rénovation, nettoyage et prestations techniques.</p><div className="contact-details"><a href="tel:+22376557215"><Phone size={17} /> +223 76 55 72 15</a><a href="tel:+22362128590"><Phone size={17} /> +223 62 12 85 90</a><a href="tel:+22375439043"><Phone size={17} /> +223 75 43 90 43</a><span><MapPin size={17} /> Imm. Samassa, route des 30 mètres</span></div></div><div className="contact-form-wrap">{formSent ? <div className="success-message"><CircleCheck size={42} /><h3>Merci pour votre demande.</h3><p>Notre équipe reviendra vers vous très rapidement.</p><button className="button button-blue" onClick={() => setFormSent(false)}>Envoyer une autre demande</button></div> : <form onSubmit={handleSubmit}><div className="form-heading"><h3>Parlez-nous de votre besoin</h3><p>Réponse sous 24h ouvrées.</p></div><div className="form-row"><label>Nom complet<input required placeholder="Votre nom" /></label><label>Téléphone<input required type="tel" placeholder="+223 ..." /></label></div><label>Email professionnel<input required type="email" placeholder="vous@entreprise.com" /></label><label>Votre projet<select defaultValue=""><option value="" disabled>Choisissez un service</option><option>Construction / BTP</option><option>Rénovation</option><option>Nettoyage professionnel</option><option>Services techniques</option></select></label><label>Message<textarea required rows={3} placeholder="Décrivez-nous votre projet..." /></label><button className="button button-primary form-button" type="submit">Envoyer ma demande <ArrowRight size={17} /></button></form>}</div></div></section>
       </main>
 
-      <footer className="site-footer"><div className="container footer-grid"><div><Logo light /><p>Construire aujourd’hui,<br />entretenir demain.</p><div className="socials"><a href="tel:+22376557215" aria-label="Téléphone principal"><Phone size={16} /></a><a href="tel:+22362128590" aria-label="Téléphone secondaire"><Phone size={16} /></a><a href="#contact" aria-label="Demander un devis"><MessageCircle size={16} /></a></div></div><div><h3>Liens utiles</h3><a href="#accueil">Accueil</a><a href="#services">Nos services</a><a href="#apropos">À propos</a><a href="#realisations">Réalisations</a></div><div><h3>Nos services</h3><a href="#services">Construction & BTP</a><a href="#services">Nettoyage</a><a href="#services">Génie civil</a><a href="#services">Services techniques</a></div><div><h3>Contact</h3><a href="tel:+22376557215"><Phone size={14} /> +223 76 55 72 15</a><a href="tel:+22362128590"><Phone size={14} /> +223 62 12 85 90</a><span><MapPin size={14} /> Imm. Samassa, route des 30 mètres</span></div></div><div className="container footer-bottom"><span>© 2026 Global Logiclean Services SARL. Tous droits réservés.</span><span>Qualité · Sécurité · Engagement</span></div></footer>
+      <footer className="site-footer"><div className="container footer-grid"><div><Logo light /><p>Construire aujourd’hui,<br />entretenir demain.</p><div className="socials"><a href="tel:+22376557215" aria-label="Téléphone principal"><Phone size={16} /></a><a href="tel:+22362128590" aria-label="Téléphone secondaire"><Phone size={16} /></a><a href="#contact" aria-label="Demander un devis"><MessageCircle size={16} /></a></div></div><div><h3>Liens utiles</h3><a href="#accueil">Accueil</a><a href="#services">Nos services</a><a href="#apropos">À propos</a><a href="#realisations">Réalisations</a><a href="#videos">Vidéos</a></div><div><h3>Nos services</h3><a href="#services">Construction & BTP</a><a href="#services">Nettoyage</a><a href="#services">Génie civil</a><a href="#services">Services techniques</a></div><div><h3>Contact</h3><a href="tel:+22376557215"><Phone size={14} /> +223 76 55 72 15</a><a href="tel:+22362128590"><Phone size={14} /> +223 62 12 85 90</a><a href="tel:+22375439043"><Phone size={14} /> +223 75 43 90 43</a><span><MapPin size={14} /> Imm. Samassa, route des 30 mètres</span></div></div><div className="container footer-bottom"><span>© 2026 Global Logiclean Services SARL. Tous droits réservés.</span><span>Qualité · Sécurité · Engagement</span></div></footer>
     </div>
   );
 }
